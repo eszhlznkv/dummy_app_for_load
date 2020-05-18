@@ -40,6 +40,7 @@ jobs:
       uses: docker://loadimpact/k6:latest
       with:
         args: |
+           -p 49160:49160
            run script.js
       
 
