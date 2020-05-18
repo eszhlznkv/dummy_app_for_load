@@ -31,25 +31,29 @@ jobs:
     - run: echo "Application has been deployed!"
     
 #     - run: echo "Now we start load testing..."
+    - name: Checkout for loadtest
+      uses: actions/checkout@v1
       
-#     - name: k6 local test run 
-#       uses: docker://loadimpact/k6:latest
-#        run: k6 run script.js
+    - name: k6 local test run 
+      uses: docker://loadimpact/k6:latest
+      with:
+        args: |
+          RUN - <script.js
       
 
-  k6_loadtest_local:
+#   k6_loadtest_local:
     
-    name: k6 local test run 
-    runs-on: ubuntu-latest
-    container: docker://loadimpact/k6:latest
-#     needs: [build]
+#     name: k6 local test run 
+#     runs-on: ubuntu-latest
+#     container: docker://loadimpact/k6:latest
+# #     needs: [build]
   
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v1
     
-    - name: Sleep
-      run: sleep 30
+#     - name: Sleep
+#       run: sleep 30
       
-    - name: Local k6 test
-      run: k6 run script.js
+#     - name: Local k6 test
+#       run: k6 run script.js
