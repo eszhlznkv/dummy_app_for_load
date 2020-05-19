@@ -15,7 +15,6 @@ jobs:
     
     strategy:
       matrix:
-#         node-version: [10.x, 12.x]
         node-version: [12.x]
 
     steps:
@@ -31,8 +30,6 @@ jobs:
       
     - run: node server.js &
     - run: echo "Application has been deployed!"
-    
-    - name: Smoke api server
     - run: curl http://localhost:49160/
       
 
