@@ -18,20 +18,30 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+#     - name: Checkout
+#       uses: actions/checkout@v2
       
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v1
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#     - run: npm ci
+#     - run: npm run build --if-present
+      
+#     - run: node server.js &
+#     - run: echo "Application has been deployed!"
+#     - run: curl http://localhost:49160/
+   
+    - name: Checkout for nodeserver
+      uses: actions/checkout@v1
+      
+    - name: run nodeserver in Docker 
+      uses: docker://node:14-alpine
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-      
-    - run: node server.js &
-    - run: echo "Application has been deployed!"
-    - run: curl http://localhost:49160/
-      
+        args: |
+           node server.js &
+        ports: 
+         49160:49160      
 
     - name: Checkout for loadtest
       uses: actions/checkout@v1
