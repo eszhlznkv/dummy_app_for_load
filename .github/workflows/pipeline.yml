@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v1
       
     - name: run nodeserver in Docker 
-      uses: docker://node:14-alpine
+      uses: docker://node:latest
       with:
         args: |
            node server.js &
