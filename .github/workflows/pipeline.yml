@@ -36,12 +36,12 @@ jobs:
       uses: actions/checkout@v1
       
     - name: run nodeserver in Docker 
-      uses: docker://navikt/node-express:12.2.0-alpine
+      uses: docker://eszhlznkv/dummyload:firsttry
       with:
         args: |
            node server.js &
         ports: 
-         49160:49160      
+         49160:8080      
 
     - name: Checkout for loadtest
       uses: actions/checkout@v1
