@@ -24,7 +24,7 @@ export default function() {
     switch (true) {
       case (userDistro <= 33):
         group('GET_/', function() {
-            http.get('http://${__ENV.MY_HOSTNAME}:49160');
+            http.get('http://0.0.0.0:49160');
           });
           console.log(`get request`)
         break;
@@ -33,7 +33,7 @@ export default function() {
         //http.get('http://localhost:49160/secret');
         
         group('GET_/secret', function() {
-            http.get('http://${__ENV.MY_HOSTNAME}/secret');
+            http.get('http://0.0.0.0/secret');
           });
           console.log(`get request secret`)
         break;
@@ -41,7 +41,7 @@ export default function() {
       case (userDistro > 66 && userDistro < 100):
         //http.post('http://localhost:49160');
         group('POST_/', function() {
-            http.post('http://${__ENV.MY_HOSTNAME}:49160');
+            http.post('http://0.0.0.0:49160');
           });
 
           console.log(`post request`)
