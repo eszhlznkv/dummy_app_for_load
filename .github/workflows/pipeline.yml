@@ -55,8 +55,9 @@ jobs:
     - name: k6 local test run 
       uses: docker://loadimpact/k6:latest
       with:
+       ports: 49160:49160
        args: |
-           -p 49160:49160 run script.js 
+            run script.js 
       
 
 #   k6_loadtest_local:
