@@ -59,6 +59,8 @@ jobs:
            run script.js
         ports: 
          49160:49160
+      env: 
+        MY_HOSTNAME: mydummyservice 
       
 
 #   k6_loadtest_local:
