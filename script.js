@@ -33,7 +33,7 @@ export default function() {
         //http.get('http://localhost:49160/secret');
         
         group('GET_/secret', function() {
-            http.get('http://0.0.0.0/secret');
+            http.get('http://0.0.0.0:49160/secret');
           });
           console.log(`get request secret`)
         break;
