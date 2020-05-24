@@ -56,7 +56,7 @@ jobs:
       uses: docker://loadimpact/k6:latest
       with:
        args: |
-           run script.js --p 49160:49160
+           run script.js -p 49160:49160
       
 
 #   k6_loadtest_local:
