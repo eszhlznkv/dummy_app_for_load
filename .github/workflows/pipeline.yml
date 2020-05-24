@@ -53,10 +53,10 @@ jobs:
       uses: actions/checkout@v1
       
     - name: k6 local test run 
-      uses: docker://loadimpact/k6:latest
+      uses: docker://loadimpact/k6:latest -p 49160:49160
       with:
        args: |
-            docker run -i loadimpact/k6 -p 49160:49160 run script.js 
+          run script.js 
       
 
 #   k6_loadtest_local:
