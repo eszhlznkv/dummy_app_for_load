@@ -17,6 +17,12 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    services:
+      mydummyservice:
+       image: docker://eszhlznkv/dummyload:firsttry
+       ports: 
+        - 49160:8080
+    
     steps:
 #     - name: Checkout
 #       uses: actions/checkout@v2
@@ -32,16 +38,16 @@ jobs:
 #     - run: echo "Application has been deployed!"
 #     - run: curl http://localhost:49160/
    
-    - name: Checkout for nodeserver
-      uses: actions/checkout@v1
+#     - name: Checkout for nodeserver
+#       uses: actions/checkout@v1
       
-    - name: run nodeserver in Docker 
-      uses: docker://eszhlznkv/dummyload:firsttry
-      with:
-        args: |
-           node server.js &
-        ports: 
-         49160:8080      
+#     - name: run nodeserver in Docker 
+#       uses: docker://eszhlznkv/dummyload:firsttry
+#       with:
+#         args: |
+#            node server.js &
+#         ports: 
+#          49160:8080      
 
     - name: Checkout for loadtest
       uses: actions/checkout@v1
