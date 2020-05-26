@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build_and_load:
 
     name: build Node.js application
     runs-on: ubuntu-latest
@@ -17,6 +17,10 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    container: 
+      image: docker://loadimpact/k6:latest
+      ports: 
+        - 49160:49160
     services:
       mydummyservice:
        image: docker://eszhlznkv/dummyload:firsttry
@@ -24,8 +28,10 @@ jobs:
         - 49160:8080
     
     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Local k6 test
+      run: k6 run script.js
       
 #     - name: Use Node.js ${{ matrix.node-version }}
 #       uses: actions/setup-node@v1
@@ -49,14 +55,14 @@ jobs:
 #         ports: 
 #          49160:8080      
 
-    - name: Checkout for loadtest
-      uses: actions/checkout@v1
+#     - name: Checkout for loadtest
+#       uses: actions/checkout@v1
       
-    - name: k6 local test run 
-      uses: docker://loadimpact/k6:latest -p 49160:49160
-      with:
-       args: |
-          run script.js 
+#     - name: k6 local test run 
+#       uses: docker://loadimpact/k6:latest
+#       with:
+#        args: |
+#           run script.js 
       
 
 #   k6_loadtest_local:
@@ -64,14 +70,15 @@ jobs:
 #     name: k6 local test run 
 #     runs-on: ubuntu-latest
 #     container: docker://loadimpact/k6:latest
-# #     needs: [build]
+#     ports:
+#     -  49160:49160
+
+# # #     needs: [build]
   
 #     steps:
 #     - name: Checkout
 #       uses: actions/checkout@v1
     
-#     - name: Sleep
-#       run: sleep 30
       
 #     - name: Local k6 test
 #       run: k6 run script.js
