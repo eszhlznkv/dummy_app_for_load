@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build_and_load:
+  build:
 
     name: build Node.js application
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{build_and_load.services.mydummyservice.name}} MY_PORT=${{build_and_load.services.mydummyservice.ports['49160']}}
+      run: k6 run script.js -e MY_HOSTNAME=${{build.services.mydummyservice.name}} MY_PORT=${{build.services.mydummyservice.ports['49160']}}
       
 #     - name: Use Node.js ${{ matrix.node-version }}
 #       uses: actions/setup-node@v1
