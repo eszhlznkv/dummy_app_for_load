@@ -17,15 +17,16 @@ jobs:
       matrix:
         node-version: [12.x]
 
-    container: 
-      image: docker://loadimpact/k6:latest
-#       ports: 
-#         - 49160:49160
     services:
       mydummyservice:
        image: docker://eszhlznkv/dummyload:firsttry
        ports: 
         - 49160:8080
+    
+    container: 
+      image: docker://loadimpact/k6:latest
+      ports: 
+        - 49160:49160
     
     steps:
     - name: Checkout
