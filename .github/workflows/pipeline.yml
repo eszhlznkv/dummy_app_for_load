@@ -32,7 +32,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{ services.mydummyservice.name }} MY_PORT=${{ services.mydummyservice.ports['49160'] }}
+      run: k6 run script.js -e MY_HOSTNAME=${{ mydummyservice.name }} MY_PORT=${{ mydummyservice.ports['49160'] }}
       
 #     - name: Use Node.js ${{ matrix.node-version }}
 #       uses: actions/setup-node@v1
