@@ -19,8 +19,8 @@ jobs:
 
     container: 
       image: docker://loadimpact/k6:latest
-      ports: 
-        - 49160:49160
+#       ports: 
+#         - 49160:49160
     services:
       mydummyservice:
        image: docker://eszhlznkv/dummyload:firsttry
