@@ -16,7 +16,9 @@ export let options = {
 export default function() {
   const before = new Date().getTime();
   const T = 2;
-
+  const port = 8080;
+  const host = 'localhost:';
+  var proto = 'http://';
 
 
     let userDistro = Math.floor(Math.random() * 100);
@@ -24,7 +26,7 @@ export default function() {
     switch (true) {
       case (userDistro <= 33):
         group('GET_/', function() {
-            http.get('http://${__ENV.MY_HOSTNAME}:${__ENV.MY_PORT}');
+            http.get(proto.concat(host, port));
           });
           console.log(`get request`)
         break;
@@ -33,7 +35,7 @@ export default function() {
         //http.get('http://localhost:49160/secret');
         
         group('GET_/secret', function() {
-            http.get('http://${__ENV.MY_HOSTNAME}:${__ENV.MY_PORT}/secret');
+            http.get(proto.concat(host, port,'/secret'));
           });
           console.log(`get request secret`)
         break;
@@ -41,7 +43,8 @@ export default function() {
       case (userDistro > 66 && userDistro < 100):
         //http.post('http://localhost:49160');
         group('POST_/', function() {
-            http.post('http://${__ENV.MY_HOSTNAME}:${__ENV.MY_PORT}');
+           http.post(proto.concat(host, port));
+
           });
 
           console.log(`post request`)
