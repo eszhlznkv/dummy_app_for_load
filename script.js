@@ -17,7 +17,7 @@ export default function() {
   const before = new Date().getTime();
   const T = 2;
   const port = 8080;
-  const host = 'localhost:';
+  const host = 'dummyload.herokuapp.com:';
   var proto = 'http://';
 
 
