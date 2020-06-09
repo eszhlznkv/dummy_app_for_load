@@ -16,8 +16,8 @@ export let options = {
 export default function() {
   const before = new Date().getTime();
   const T = 2;
-  const port = 8080;
-  const host = 'dummyload.herokuapp.com:';
+  const port = `${__ENV.PORT}` || 8080;
+  const host = `${__ENV.HOST}:` ||'localhost:';
   var proto = 'http://';
 
 
