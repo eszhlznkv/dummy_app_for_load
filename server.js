@@ -1,5 +1,5 @@
 'use strict';
-
+//heroku logs -n 10 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g'
 const express = require('express');
 
 // Constants
