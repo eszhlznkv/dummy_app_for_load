@@ -1,42 +1,93 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: My-Fantastic-Load-Pipeline
 
-on:
+name: Push Container to Heroku
+
+on: 
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   build:
-
-    name: build Node.js application
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
     
-    strategy:
-      matrix:
-        node-version: [12.x]
-
-    services:
-      mydummyservice:
-       image: docker://eszhlznkv/dummyload:firsttry
-       ports: 
-        - 49160:8080
+    - name: Login to Heroku Container registry
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login 
     
-    container: 
-      image: docker://loadimpact/k6:latest
-#       ports: 
-#         - 49160:49160
+    - name: Build and push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
     
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+    
+    - name: Check port
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: echo ::set-env name=TESTPORT::$(heroku logs -n 10 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+  
+  loadtest:
+    name: k6 local test run 
+    runs-on: ubuntu-latest
+    container: docker://loadimpact/k6:latest
+    needs: [build]
+  
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    
+      
     - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=$MY_HOSTNAME MY_PORT=$MY_PORT
-      env:
-       MY_HOSTNAME: mydummyservice
-       MY_PORT: 49160
+      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ TESTPORT }}
+    
+    
+
+
+
+# name: My-Fantastic-Load-Pipeline
+
+# on:
+#   push:
+#     branches: [ master ]
+
+# jobs:
+#   build:
+
+#     name: build Node.js application
+#     runs-on: ubuntu-latest
+    
+#     strategy:
+#       matrix:
+#         node-version: [12.x]
+
+#     services:
+#       mydummyservice:
+#        image: docker://eszhlznkv/dummyload:firsttry
+#        ports: 
+#         - 49160:8080
+    
+#     container: 
+#       image: docker://loadimpact/k6:latest
+# #       ports: 
+# #         - 49160:49160
+    
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v1
+    
+#     - name: Local k6 test
+#       run: k6 run script.js -e MY_HOSTNAME=$MY_HOSTNAME MY_PORT=$MY_PORT
+#       env:
+#        MY_HOSTNAME: mydummyservice
+#        MY_PORT: 49160
       
 #     - name: Use Node.js ${{ matrix.node-version }}
 #       uses: actions/setup-node@v1
