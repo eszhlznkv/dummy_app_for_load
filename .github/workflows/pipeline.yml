@@ -40,19 +40,22 @@ jobs:
     
     - name: Echo port
       run: echo "${TESTPORT}"
-  
-  loadtest:
-    name: k6 local test run 
-    runs-on: ubuntu-latest
-    container: docker://loadimpact/k6:latest
-    needs: [build]
-  
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-      
+    
     - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${TESTPORT}
+      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ env.TESTPORT }}
+  
+#   loadtest:
+#     name: k6 local test run 
+#     runs-on: ubuntu-latest
+#     container: docker://loadimpact/k6:latest
+#     needs: [build]
+  
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v1
+      
+#     - name: Local k6 test
+#       run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${TESTPORT}
     
     
 
