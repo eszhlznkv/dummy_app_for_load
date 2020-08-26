@@ -36,7 +36,7 @@ jobs:
     - name: Check port
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: echo ::set-env name=TESTPORT::$(heroku logs -n 10 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+      run: echo ::set-env name=TESTPORT::$(heroku logs -n 2 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
     
     - name: Echo port
       run: echo "${TESTPORT}"
@@ -52,7 +52,7 @@ jobs:
       uses: actions/checkout@v1
       
     - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=$TESTPORT
+      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${TESTPORT}
     
     
 
