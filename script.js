@@ -16,8 +16,10 @@ export let options = {
 export default function() {
   const before = new Date().getTime();
   const T = 2;
-  const port = `${__ENV.PORT}` || 8080;
-  const host = `${__ENV.HOST}:` ||'localhost:';
+  const port = ``;
+  
+//   const port = `${__ENV.PORT}` || 8080;
+  const host = `${__ENV.HOST}` ||'localhost:';
   var proto = 'https://';
 
 
