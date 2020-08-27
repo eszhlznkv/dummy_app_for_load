@@ -33,13 +33,16 @@ jobs:
       run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
     
     - name: Sleep
-      run: sleep 10
+      run: sleep 30
     
     - id: port
       name: Check port
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: echo "::set-output name=testport::$(heroku logs -n 3 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')"
+      run: echo ::set-output name=testport::$(heroku logs -n 3 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+    
+    - name: Echo steps.port.outputs.testport
+      run: echo "${{steps.port.outputs.testport}}"
     
 #     - id: port
 #       name: Check port
@@ -48,7 +51,6 @@ jobs:
 #       run: echo ::set-env name=TESTPORT::$(heroku logs -n 2 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
     
 
-    
 
   
   loadtest:
