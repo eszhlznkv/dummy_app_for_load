@@ -39,7 +39,7 @@ jobs:
       name: Check port
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: echo ::set-output name=testport::$(heroku logs -n 3 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+      run: echo "::set-output name=testport::$(heroku logs -n 3 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')"
     
 #     - id: port
 #       name: Check port
