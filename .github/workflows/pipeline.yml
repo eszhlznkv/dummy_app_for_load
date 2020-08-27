@@ -65,9 +65,20 @@ jobs:
       
     - name: Checkout
       uses: actions/checkout@v1
+    
+    - name: Run k6 local test
+      uses: k6io/action@v0.1
+      with:
+        filename: script.js
+      env:
+        MY_HOSTNAME: ${{ secrets.HEROKU_APP_NAME }}
+        MY_PORT: ${{ needs.build.outputs.output_port }}
+    
+#     - name: Local k6 test
+#       run: run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ needs.build.outputs.output_port }}
       
-    - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ needs.build.outputs.output_port }}
+#     - name: Local k6 test
+#       run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ needs.build.outputs.output_port }}
     
     
 
