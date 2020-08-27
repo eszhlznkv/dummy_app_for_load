@@ -9,13 +9,13 @@ import { group } from 'k6';
 //VU = (10 * 2) / 1 = 20
 
 export let options = {
-  vus: 20,
-  duration: '60s'
+  vus: 3,
+  duration: '10s'
 };
 
 export default function() {
   const before = new Date().getTime();
-  const T = 2;
+  const T = 5;
   const port = ``;
   
 //   const port = `${__ENV.PORT}` || 8080;
