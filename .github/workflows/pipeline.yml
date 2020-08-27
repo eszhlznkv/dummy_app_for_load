@@ -12,13 +12,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      output_port: steps.port.outputs.testport
     steps:
     - uses: actions/checkout@v1
     
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
+      run: heroku container:login
     
     - name: Build and push
       env:
@@ -33,29 +35,35 @@ jobs:
     - name: Sleep
       run: sleep 10
     
-    - name: Check port
+    - id: port
+      name: Check port
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: echo ::set-env name=TESTPORT::$(heroku logs -n 2 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+      run: echo ::set-output name=testport::$(heroku logs -n 2 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
+    
+#     - id: port
+#       name: Check port
+#       env:
+#         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#       run: echo ::set-env name=TESTPORT::$(heroku logs -n 2 -a dummyload |  grep -o 'Running on this port [0-9]\+' | sed -e 's/[^0-9]//g')
     
     - name: Echo port
       run: echo "${TESTPORT}"
     
-    - name: Local k6 test
-      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ env.TESTPORT }}
+
   
-#   loadtest:
-#     name: k6 local test run 
-#     runs-on: ubuntu-latest
-#     container: docker://loadimpact/k6:latest
-#     needs: [build]
+  loadtest:
+    name: k6 local test run 
+    runs-on: ubuntu-latest
+    container: docker://loadimpact/k6:latest
+    needs: [build]
   
-#     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v1
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
       
-#     - name: Local k6 test
-#       run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${TESTPORT}
+    - name: Local k6 test
+      run: k6 run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{needs.build.outputs.output_port}}
     
     
 
