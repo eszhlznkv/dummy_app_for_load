@@ -18,7 +18,7 @@ export default function() {
   const T = 2;
   const port = `${__ENV.PORT}` || 8080;
   const host = `${__ENV.HOST}:` ||'localhost:';
-  var proto = 'http://';
+  var proto = 'https://';
 
 
     let userDistro = Math.floor(Math.random() * 100);
