@@ -71,8 +71,8 @@ jobs:
       with:
         filename: script.js
       env:
-        MY_HOSTNAME: "${{ secrets.HEROKU_APP_NAME }}"
-        MY_PORT: "${{ needs.build.outputs.output_port }}"
+        HOST: ${{ secrets.HEROKU_APP_NAME }}
+        PORT: ${{ needs.build.outputs.output_port }}
     
 #     - name: Local k6 test
 #       run: run script.js -e MY_HOSTNAME=${{ secrets.HEROKU_APP_NAME }} MY_PORT=${{ needs.build.outputs.output_port }}
